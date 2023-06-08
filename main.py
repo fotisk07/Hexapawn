@@ -15,7 +15,7 @@ class Main:
         pygame.display.set_caption("Hexapawn")
         self.game = Game()
 
-    def mainloop(self):  # sourcery skip: extract-duplicate-method, low-code-quality
+    def mainloop(self):
 
         game = self.game
         screen = self.screen
