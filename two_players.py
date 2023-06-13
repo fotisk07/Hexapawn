@@ -1,10 +1,10 @@
 import pygame
 import sys
 
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SQSIZE
-from game import Game
-from square import Square
-from move import Move
+from game_functionality.constants import SCREEN_WIDTH, SCREEN_HEIGHT, SQSIZE
+from game_functionality.game import Game
+from game_functionality.square import Square
+from game_functionality.move import Move
 from generator import Generator
 
 
@@ -38,8 +38,6 @@ class SinglePlay:
                 dragger.update_blit(screen)
 
             for event in pygame.event.get():
-
-                
 
                 if event.type == pygame.MOUSEBUTTONDOWN and not board.winner:
                     dragger.update_mouse(event.pos)
@@ -93,7 +91,7 @@ class SinglePlay:
 
                         # create possible move
                         initial = Square(dragger.initial_row,
-                                            dragger.initial_col)
+                                         dragger.initial_col)
                         final = Square(released_row, released_col)
                         move = Move(initial, final)
 
@@ -116,7 +114,6 @@ class SinglePlay:
                             board.check_winner()
 
                         dragger.undrag_piece()
-
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:

@@ -5,12 +5,14 @@ from constants import *
 from board import Board
 from dragger import Dragger
 from square import Square
+from ai import AI
 
 
 class Game:
     def __init__(self):
         self.board = Board()
         self.dragger = Dragger()
+        self.ai = AI()
         self.next_player = 'white'
         self.hover_square = None
 

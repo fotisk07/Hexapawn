@@ -1,4 +1,4 @@
-import two_players
+from game_functionality import single_player
 
-play = two_players.SinglePlay()
+play = single_player.SinglePlay()
 play.mainloop()
