@@ -31,7 +31,7 @@ class SinglePlay:
             if board.squares[clicked_row][clicked_col].has_piece():
                 piece = board.squares[clicked_row][clicked_col].piece
                 # valid piece color
-                if piece.color == game.next_player:
+                if piece.color == board.to_play:
 
                     board.calc_moves(
                         piece, clicked_row, clicked_col)
@@ -73,7 +73,7 @@ class SinglePlay:
 
                 # create possible move
                 initial = Square(dragger.initial_row,
-                                    dragger.initial_col)
+                                 dragger.initial_col)
                 final = Square(released_row, released_col)
                 move = Move(initial, final)
 
@@ -81,21 +81,17 @@ class SinglePlay:
                 if board.valid_moves(dragger.piece, move):
                     captured = board.squares[released_row][released_col].has_piece(
                     )
-    
+
                     board.move(dragger.piece, move)
                     # show methods
                     game.show_bg(screen)
                     game.show_last_move(screen)
                     game.show_pieces(screen)
-                    
-
-                    # check if game is over
-                    board.check_winner(game.next_player)
 
                     game.next_turn()
+                    board.check_winner()
 
                 dragger.undrag_piece()
-
 
     def mainloop(self):
         game = self.game
@@ -105,6 +101,7 @@ class SinglePlay:
         ai = self.game.ai
 
         while True:
+
             if board.winner:
                 game.show_winner(screen, board.winner)
             else:
@@ -119,7 +116,7 @@ class SinglePlay:
 
             for event in pygame.event.get():
 
-                if game.next_player == "white":
+                if board.to_play == "white":
                     if not board.winner:
                         self.player_turn(event)
 
@@ -132,7 +129,6 @@ class SinglePlay:
                         game.show_pieces(screen)
                         game.next_turn()
                         board.check_winner()
-
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
@@ -148,5 +144,5 @@ class SinglePlay:
             pygame.display.update()
 
 
-        
-        
+if __name__ == "__main__":
+    SinglePlay().mainloop()

@@ -13,7 +13,6 @@ class Game:
         self.board = Board()
         self.dragger = Dragger()
         self.ai = AI()
-        self.next_player = 'white'
         self.hover_square = None
 
 
@@ -87,8 +86,7 @@ class Game:
             surface.blit(img, (0, 0))
 
     def next_turn(self):
-        self.next_player = 'white' if self.next_player == 'black' else 'black'
-        self.board.player_turn = self.next_player
+        self.board.to_play = "white" if self.board.to_play == "black" else "black"
 
     def set_hover(self, row, col):
         if Square.in_range(row, col):

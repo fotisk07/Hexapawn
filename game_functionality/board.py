@@ -3,6 +3,7 @@ from game_functionality.constants import *
 from game_functionality.square import Square
 from game_functionality.piece import Piece, Pawn
 from game_functionality.move import Move
+import copy
 
 
 class Board:
@@ -11,7 +12,7 @@ class Board:
         self._create()
         self._add_pieces('white')
         self._add_pieces('black')
-        self.player_turn = 'white'
+        self.to_play = 'white'
         self.last_move = None
         self.winner = None
 
@@ -116,7 +117,8 @@ class Board:
     def valid_moves(self, piece, move):
         return move in piece.moves
 
-    def all_moves(self, colors):
+    def all_moves(self):
+        colors = self.to_play
         moves = []
         for row, col in itertools.product(range(ROWS), range(COLS)):
             if self.squares[row][col].has_team_piece(colors):
@@ -136,12 +138,9 @@ class Board:
             for col in range(COLS)
         )
 
-    def check_winner(self, player):
-        if not len(self.all_moves("white")) or not len(self.all_moves("black")):
-            if len(self.all_moves("white")) == 0 and player == "white":
-                self.winner = "black"
-            elif len(self.all_moves("black")) == 0 and player == "black":
-                self.winner = "white"
+    def check_winner(self):
+        if len(self.all_moves()) == 0:
+            self.winner = "white" if self.to_play == "black" else "black"
 
         if self.is_back_rank("white"):
             self.winner = "white"

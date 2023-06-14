@@ -49,7 +49,7 @@ class TwoPlayers:
                     if board.squares[clicked_row][clicked_col].has_piece():
                         piece = board.squares[clicked_row][clicked_col].piece
                         # valid piece color
-                        if piece.color == game.next_player:
+                        if piece.color == board.to_play:
 
                             board.calc_moves(
                                 piece, clicked_row, clicked_col)
@@ -100,20 +100,16 @@ class TwoPlayers:
                             captured = board.squares[released_row][released_col].has_piece(
                             )
 
-                            # save data
-                            generator.add_data(board, move)
-
                             board.move(dragger.piece, move)
                             # show methods
                             game.show_bg(screen)
                             game.show_last_move(screen)
                             game.show_pieces(screen)
-                            
 
                             # check if game is over
-                            board.check_winner(game.next_player)
 
                             game.next_turn()
+                            board.check_winner()
 
                         dragger.undrag_piece()
 
@@ -129,3 +125,7 @@ class TwoPlayers:
                     sys.exit()
 
             pygame.display.update()
+
+
+if __name__ == "__main__":
+    TwoPlayers().mainloop()
