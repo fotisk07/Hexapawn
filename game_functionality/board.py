@@ -1,8 +1,8 @@
 import itertools
-from constants import *
-from square import Square
-from piece import Piece, Pawn
-from move import Move
+from game_functionality.constants import *
+from game_functionality.square import Square
+from game_functionality.piece import Piece, Pawn
+from game_functionality.move import Move
 
 
 class Board:
@@ -89,9 +89,12 @@ class Board:
             for col in range(COLS)
         )
 
-    def check_winner(self):
+    def check_winner(self, player):
         if not len(self.all_moves("white")) or not len(self.all_moves("black")):
-            self.winner = "black" if not len(self.all_moves("white")) else "white"
+            if len(self.all_moves("white"))==0 and player == "white":
+                self.winner = "black"
+            elif len(self.all_moves("black"))==0 and player == "black":
+                self.winner = "white"
 
         if self.is_back_rank("white"):
             self.winner = "white"

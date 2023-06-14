@@ -1,10 +1,10 @@
 import itertools
 import pygame
-from constants import *
+from game_functionality.constants import *
 
-from board import Board
-from dragger import Dragger
-from square import Square
+from game_functionality.board import Board
+from game_functionality.dragger import Dragger
+from game_functionality.square import Square
 from ai import AI
 
 
@@ -84,7 +84,23 @@ class Game:
             img = pygame.image.load(BLACK_WINS)
             surface.blit(img, (0, 0))
 
-    # Other methods
+
+
+    def show_simple(self):
+        string = ''
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.board.squares[row][col].has_piece():
+                    string += self.board.squares[row][col].piece.color[0]
+                    string += " "
+                else:
+                    string += '. '
+
+            string += '\n'
+
+        print(string)
+
+                
 
     def next_turn(self):
         self.next_player = 'white' if self.next_player == 'black' else 'black'

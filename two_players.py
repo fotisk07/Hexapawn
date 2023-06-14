@@ -8,7 +8,7 @@ from game_functionality.move import Move
 from generator import Generator
 
 
-class SinglePlay:
+class TwoPlayers:
 
     def __init__(self):
         pygame.init()
@@ -108,10 +108,12 @@ class SinglePlay:
                             game.show_bg(screen)
                             game.show_last_move(screen)
                             game.show_pieces(screen)
-                            game.next_turn()
+                            
 
                             # check if game is over
-                            board.check_winner()
+                            board.check_winner(game.next_player)
+
+                            game.next_turn()
 
                         dragger.undrag_piece()
 

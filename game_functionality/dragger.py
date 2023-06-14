@@ -1,5 +1,5 @@
 import pygame
-from constants import SQSIZE
+from game_functionality.constants import SQSIZE
 
 
 class Dragger:

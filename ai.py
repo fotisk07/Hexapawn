@@ -1,14 +1,14 @@
-from square import Square
+from game_functionality.square import Square
 
 
 
 class AI():
     def __init__(self):
-        pass
+        self.name = "Random AI"
 
 
-    def get_move(self, board):
-        moves = board.all_moves("black")
+    def get_move(self, board, color="black"):
+        moves = board.all_moves(color)
 
         return moves[0]
     
