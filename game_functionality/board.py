@@ -27,6 +27,52 @@ class Board:
         for col in range(COLS):
             self.squares[row_pawn][col] = Square(row_pawn, col, Pawn(color))
 
+    def __str__(self):
+        string = ''
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece():
+                    string += self.squares[row][col].piece.color[0]
+                    string += " "
+                else:
+                    string += '. '
+
+            string += '\n'
+
+        return string
+
+    def __repr__(self):
+        """
+        we will create a bit vector representation of the board.
+        irst pass we encode 1 is a white piece is present, 0 if not
+        Second pass we encode 1 if a black piece is present, 0 if not
+        111 is white to move, 000 is black to move
+        """
+
+        bit_vector = ''
+
+       # White pass
+
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'white':
+                    bit_vector += '1'
+                else:
+                    bit_vector += '0'
+
+        # Black pass
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'black':
+                    bit_vector += '1'
+                else:
+                    bit_vector += '0'
+
+        # Player turn pass
+        bit_vector += '111' if self.player_turn == 'white' else '000'
+
+        return bit_vector
+
     def calc_moves(self, piece, row, col):
         '''
         Calculate all possible moves for a given piece on a given square
@@ -101,35 +147,3 @@ class Board:
             self.winner = "white"
         elif self.is_back_rank("black"):
             self.winner = "black"
-
-    def bitVector(self):
-        """
-        we will create a bit vector representation of the board.
-        irst pass we encode 1 is a white piece is present, 0 if not
-        Second pass we encode 1 if a black piece is present, 0 if not
-        111 is white to move, 000 is black to move
-        """
-
-        bit_vector = ''
-
-       # White pass
-
-        for row in range(ROWS):
-            for col in range(COLS):
-                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'white':
-                    bit_vector += '1'
-                else:
-                    bit_vector += '0'
-
-        # Black pass
-        for row in range(ROWS):
-            for col in range(COLS):
-                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'black':
-                    bit_vector += '1'
-                else:
-                    bit_vector += '0'
-
-        # Player turn pass
-        bit_vector += '111' if self.player_turn == 'white' else '000'
-
-        return bit_vector

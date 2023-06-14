@@ -16,6 +16,8 @@ class Game:
         self.next_player = 'white'
         self.hover_square = None
 
+
+
     def show_bg(self, surface):
         for row, col in itertools.product(range(ROWS), range(COLS)):
             color = LIGHT_GREEN if (row + col) % 2 == 0 else DARK_GREEN
@@ -83,24 +85,6 @@ class Game:
         elif color == "black":
             img = pygame.image.load(BLACK_WINS)
             surface.blit(img, (0, 0))
-
-
-
-    def show_simple(self):
-        string = ''
-        for row in range(ROWS):
-            for col in range(COLS):
-                if self.board.squares[row][col].has_piece():
-                    string += self.board.squares[row][col].piece.color[0]
-                    string += " "
-                else:
-                    string += '. '
-
-            string += '\n'
-
-        print(string)
-
-                
 
     def next_turn(self):
         self.next_player = 'white' if self.next_player == 'black' else 'black'
