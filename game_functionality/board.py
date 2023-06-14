@@ -100,9 +100,11 @@ class Board:
         if isinstance(piece, Pawn):
             pawn_moves()
 
-    def move(self, piece, move):
+    def move(self, move):
         initial = move.initial_square
         final = move.final_square
+
+        piece = move.piece
 
         # console board move update
         self.squares[initial.row][initial.col].piece = None

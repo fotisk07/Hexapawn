@@ -73,7 +73,7 @@ class SinglePlay:
 
                 # create possible move
                 initial = Square(dragger.initial_row,
-                                 dragger.initial_col)
+                                 dragger.initial_col, piece=dragger.piece)
                 final = Square(released_row, released_col)
                 move = Move(initial, final)
 
@@ -82,7 +82,7 @@ class SinglePlay:
                     captured = board.squares[released_row][released_col].has_piece(
                     )
 
-                    board.move(dragger.piece, move)
+                    board.move(move)
                     # show methods
                     game.show_bg(screen)
                     game.show_last_move(screen)
@@ -123,7 +123,7 @@ class SinglePlay:
                 else:   # AI turn
                     if not board.winner:
                         move = ai.get_move(board)
-                        board.move(move.piece, move)
+                        board.move(move)
                         game.show_bg(screen)
                         game.show_last_move(screen)
                         game.show_pieces(screen)
