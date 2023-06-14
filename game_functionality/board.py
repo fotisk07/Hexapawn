@@ -11,6 +11,7 @@ class Board:
         self._create()
         self._add_pieces('white')
         self._add_pieces('black')
+        self.player_turn = 'white'
         self.last_move = None
         self.winner = None
 
@@ -91,12 +92,44 @@ class Board:
 
     def check_winner(self, player):
         if not len(self.all_moves("white")) or not len(self.all_moves("black")):
-            if len(self.all_moves("white"))==0 and player == "white":
+            if len(self.all_moves("white")) == 0 and player == "white":
                 self.winner = "black"
-            elif len(self.all_moves("black"))==0 and player == "black":
+            elif len(self.all_moves("black")) == 0 and player == "black":
                 self.winner = "white"
 
         if self.is_back_rank("white"):
             self.winner = "white"
         elif self.is_back_rank("black"):
             self.winner = "black"
+
+    def bitVector(self):
+        """
+        we will create a bit vector representation of the board.
+        irst pass we encode 1 is a white piece is present, 0 if not
+        Second pass we encode 1 if a black piece is present, 0 if not
+        111 is white to move, 000 is black to move
+        """
+
+        bit_vector = ''
+
+       # White pass
+
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'white':
+                    bit_vector += '1'
+                else:
+                    bit_vector += '0'
+
+        # Black pass
+        for row in range(ROWS):
+            for col in range(COLS):
+                if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == 'black':
+                    bit_vector += '1'
+                else:
+                    bit_vector += '0'
+
+        # Player turn pass
+        bit_vector += '111' if self.player_turn == 'white' else '000'
+
+        return bit_vector

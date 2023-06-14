@@ -104,6 +104,7 @@ class Game:
 
     def next_turn(self):
         self.next_player = 'white' if self.next_player == 'black' else 'black'
+        self.board.player_turn = self.next_player
 
     def set_hover(self, row, col):
         if Square.in_range(row, col):
