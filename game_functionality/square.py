@@ -7,6 +7,10 @@ class Square:
 
     def __eq__(self, other):
         return self.row == other.row and self.col == other.col
+    
+    def single_coord(self):
+        return self.row * 3 + self.col
+
 
     def has_piece(self):
         return self.piece != None
