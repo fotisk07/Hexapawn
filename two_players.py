@@ -108,7 +108,6 @@ class TwoPlayers:
 
                             # check if game is over
 
-                            game.next_turn()
                             board.check_winner()
 
                         dragger.undrag_piece()

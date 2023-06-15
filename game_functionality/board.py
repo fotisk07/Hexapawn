@@ -13,7 +13,8 @@ class Board:
         self._add_pieces('white')
         self._add_pieces('black')
         self.to_play = 'white'
-        self.last_move = None
+        self.last_move = []
+        self.captured_piece = []
         self.winner = None
 
     def _create(self):
@@ -29,7 +30,7 @@ class Board:
             self.squares[row_pawn][col] = Square(row_pawn, col, Pawn(color))
 
     def __str__(self):
-        string = ''
+        string = f'{self.to_play} to play\n'
         for row in range(ROWS):
             for col in range(COLS):
                 if self.squares[row][col].has_piece():
@@ -70,7 +71,7 @@ class Board:
                     bit_vector += '0'
 
         # Player turn pass
-        bit_vector += '111' if self.player_turn == 'white' else '000'
+        bit_vector += '111' if self.to_play == 'white' else '000'
 
         return bit_vector
 
@@ -106,6 +107,10 @@ class Board:
 
         piece = move.piece
 
+        # Save last move, save piece that was captured
+        self.last_move.append(move)
+        self.captured_piece.append(self.squares[final.row][final.col].piece)
+
         # console board move update
         self.squares[initial.row][initial.col].piece = None
         self.squares[final.row][final.col].piece = piece
@@ -113,8 +118,22 @@ class Board:
         # clear valid moves
         piece.clear_moves()
 
-        # Set last move
-        self.last_move = move
+        # change player turn
+        self.to_play = 'white' if self.to_play == 'black' else 'black'
+
+    def undo_move(self):
+        last_move = self.last_move.pop()
+        captured_piece = self.captured_piece.pop()
+
+        initial = last_move.initial_square
+        final = last_move.final_square
+        piece = last_move.piece
+
+        self.squares[initial.row][initial.col].piece = piece
+        self.squares[final.row][final.col].piece = captured_piece
+
+        # change player turn
+        self.to_play = 'white' if self.to_play == 'black' else 'black'
 
     def valid_moves(self, piece, move):
         return move in piece.moves
@@ -134,11 +153,11 @@ class Board:
         # Check if a piece of a given color has reached the back rank
         row = 0 if color == 'white' else 2
 
-        return any(
-            self.squares[row][col].has_piece()
-            and self.squares[row][col].piece.color == color
-            for col in range(COLS)
-        )
+        for col in range(COLS):
+            if self.squares[row][col].has_piece() and self.squares[row][col].piece.color == color:
+                return True
+
+        return False
 
     def check_winner(self):
         if len(self.all_moves()) == 0:

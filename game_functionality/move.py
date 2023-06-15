@@ -8,8 +8,8 @@ class Move:
 
     def __str__(self):
         s = self.piece.color + ' '
-        s += f'({self.initial_square.col}, {self.initial_square.row})'
-        s += f' -> ({self.final_square.col}, {self.final_square.row})'
+        s += f'({self.initial_square.row}, {self.initial_square.col})'
+        s += f' -> ({self.final_square.row}, {self.final_square.col})'
         return s
 
     def __repr__(self):

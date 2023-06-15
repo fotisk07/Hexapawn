@@ -6,6 +6,7 @@ from game_functionality.board import Board
 from game_functionality.dragger import Dragger
 from game_functionality.square import Square
 from ai import AI
+from game_functionality.constants import *
 
 
 class Game:
@@ -14,8 +15,6 @@ class Game:
         self.dragger = Dragger()
         self.ai = AI()
         self.hover_square = None
-
-
 
     def show_bg(self, surface):
         for row, col in itertools.product(range(ROWS), range(COLS)):
@@ -54,9 +53,14 @@ class Game:
                 pygame.draw.rect(surface, color, rect)
 
     def show_last_move(self, surface):
-        if self.board.last_move:
-            initial = self.board.last_move.initial_square
-            final = self.board.last_move.final_square
+        if len(self.board.last_move) > 0:
+            last_move = self.board.last_move[-1]
+        else:
+            last_move = None
+
+        if last_move:
+            initial = last_move.initial_square
+            final = last_move.final_square
 
             for pos in [initial, final]:
                 # color
@@ -79,14 +83,22 @@ class Game:
 
     def show_winner(self, surface, color):
         if color == "white":
-            img = pygame.image.load(WHITE_WINS)
-            surface.blit(img, (0, 0))
+            # display text saying white won
+            pygame.font.init()
+            font = pygame.font.SysFont("comicsans", 100)
+            text = font.render("White Wins!", 1, (255, 255, 255))
+            surface.blit(text, (SCREEN_WIDTH/2 - text.get_width() /
+                                2, SCREEN_HEIGHT/2 - text.get_height()/2))
+            
         elif color == "black":
-            img = pygame.image.load(BLACK_WINS)
-            surface.blit(img, (0, 0))
-
-    def next_turn(self):
-        self.board.to_play = "white" if self.board.to_play == "black" else "black"
+            # display text saying black won
+            pygame.font.init()
+            font = pygame.font.SysFont("comicsans", 100)
+            text = font.render("Black Wins!", 1, (0, 0, 0))
+            surface.blit(text, (SCREEN_WIDTH/2 - text.get_width() /
+                                2, SCREEN_HEIGHT/2 - text.get_height()/2))
+            
+            
 
     def set_hover(self, row, col):
         if Square.in_range(row, col):

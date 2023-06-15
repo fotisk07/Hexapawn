@@ -26,3 +26,10 @@ GREEN2 = (172, 195, 51)
 # Path Files
 WHITE_WINS = "assets/white_wins.png"
 BLACK_WINS = "assets/black_wins.png"
+
+# AI parameters
+MAXVAL  = 100
+MINVAL = -100
+
+STARTMAXVAL = 1000
+STARTMINVAL = -1000

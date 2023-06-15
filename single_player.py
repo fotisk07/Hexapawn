@@ -87,8 +87,6 @@ class SinglePlay:
                     game.show_bg(screen)
                     game.show_last_move(screen)
                     game.show_pieces(screen)
-
-                    game.next_turn()
                     board.check_winner()
 
                 dragger.undrag_piece()
@@ -101,7 +99,6 @@ class SinglePlay:
         ai = self.game.ai
 
         while True:
-
             if board.winner:
                 game.show_winner(screen, board.winner)
             else:
@@ -124,10 +121,14 @@ class SinglePlay:
                     if not board.winner:
                         move = ai.get_move(board)
                         board.move(move)
+
+                        # small delay
+                        pygame.time.wait(200)
+
+                        # show methods
                         game.show_bg(screen)
                         game.show_last_move(screen)
                         game.show_pieces(screen)
-                        game.next_turn()
                         board.check_winner()
 
                 if event.type == pygame.KEYDOWN:
